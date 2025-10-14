@@ -1,26 +1,72 @@
+/* ✅ Tailwind v4 импорты */
 @import "tailwindcss";
 
+/* 🔠 Шрифт */
+@import url("https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap");
+
+/* 🧱 Базовые стили */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--color: 0 0% 100%;
+	--foreground: #04140c;
+}
+/* 🌍 Базовые настройки */
+html {
+	scroll-behavior: smooth;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+	background-color: var(--foreground);
+	color: hsl(var(--color));
+	line-height: 1.5;
+	display: block;
+	width: 100%;
+}
+
+/* 🎨 Цвета и переменные */
+@theme inline {
+	--radius: 0.75rem;
+}
+
+/* ✨ Основные кнопки с градиентом */
+
+/* Primary — бирюзовый (#32DDD4 → #1A746F) */
+.btn {
+	@apply inline-flex items-center justify-center px-6 py-3 rounded-[var(--radius)]
+	text-white font-medium transition-all duration-300 shadow-md active:scale-95;
+	background: linear-gradient(90deg, #32ddd4 0%, #1a746f 100%);
+}
+
+.btn:hover {
+	filter: brightness(1.25);
+}
+
+/* Secondary — серый (#FFFFFF → #B5B5B5) */
+.btn-secondary {
+	@apply inline-flex items-center justify-center px-6 py-3 rounded-[var(--radius)]
+	font-medium transition-all duration-300 shadow-sm active:scale-95;
+	background: linear-gradient(90deg, #ffffff 0%, #b5b5b5 100%);
+	color: #111;
+}
+
+.btn-secondary:hover {
+	filter: opacity(0.75);
+}
+
+/* 💫 Эффекты */
+button {
+	cursor: pointer;
+}
+
+.font-dela {
+	font-family: var(--font-dela);
+}
+
+.font-montserrat {
+	font-family: var(--font-montserrat);
 }
