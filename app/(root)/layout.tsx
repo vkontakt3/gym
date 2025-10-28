@@ -1,4 +1,5 @@
 import Header from "@/components/header";
+import TopBar from "@/components/top-bar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,6 +15,7 @@ export default function HomeLayout({
 	return (
 		<main>
 			<Header />
+			<TopBar />
 			{children}
 		</main>
 	);

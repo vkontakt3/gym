@@ -1,0 +1,116 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id        Int      @id @default(autoincrement())
+    
+    name      String
+    email     String   @unique
+    password  String
+    role      UserRole   @default(USER) 
+
+    bookings  Booking[] 
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Booking {
+    id        Int      @id @default(autoincrement())
+
+    user      User     @relation(fields: [userId], references: [id])
+    userId    Int
+    coach     Coach    @relation(fields: [coachId], references: [id])
+    coachId   Int
+    date      DateTime
+    
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Галерея
+model GaleryItem {
+    id  Int    @id @default(autoincrement())
+
+    src String
+    alt String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Карточки клуба
+model CardItem {
+    id  Int    @id @default(autoincrement())
+    src String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Тренеры
+model Coach {
+    id          Int      @id @default(autoincrement())
+
+    src         String
+    fullName    String
+    description String
+    experience  String
+    schedule    String
+    about       String
+    phone       String   @unique
+    email       String   @unique
+    achievements Achievement[]
+
+    bookings  Booking[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Achievement {
+    id      Int    @id @default(autoincrement())
+
+    text    String
+    coachId Int
+    coach   Coach  @relation(fields: [coachId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Сервисы
+model ServiceItem {
+    id    Int    @id @default(autoincrement())
+
+    src   String
+    title String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Навигация
+model NavLink {
+    id   Int    @id @default(autoincrement())
+
+    name String
+    href String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+
+
+
+enum UserRole {
+    USER
+    ADMIN
+}

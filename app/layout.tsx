@@ -1,5 +1,7 @@
 import { Dela_Gothic_One, Montserrat } from "next/font/google";
 import "./globals.css";
+import "antd/dist/reset.css";
+import { Providers } from "@/lib/providers";
 
 const dela = Dela_Gothic_One({
 	subsets: ["latin", "cyrillic"],
@@ -26,7 +28,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" className={`${dela.variable} ${montserrat.variable}`}>
 			<body className="font-[var(--font-montserrat)] bg-[#04140c] text-white">
-				{children}
+				<Providers>{children}</Providers>
 			</body>
 		</html>
 	);

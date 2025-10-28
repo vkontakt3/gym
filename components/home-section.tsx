@@ -1,7 +1,8 @@
 import { cn } from "@/lib/cn";
-import Slider from "./slider";
 import Card from "./card";
 import { Container } from "./container";
+import SliderHome from "./slider/slider-home";
+import Link from "next/link";
 
 interface Props {
 	className?: string;
@@ -16,6 +17,7 @@ export default function HomeSection({ className }: Props) {
 
 	return (
 		<section
+			id="home"
 			className={cn(
 				"relative w-full h-[745px] overflow-hidden text-white",
 				className
@@ -23,7 +25,7 @@ export default function HomeSection({ className }: Props) {
 		>
 			{/* Фон */}
 			<div className="absolute inset-0 -z-0">
-				<Slider />
+				<SliderHome />
 			</div>
 			<div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent z-10 " />
 
@@ -49,7 +51,9 @@ export default function HomeSection({ className }: Props) {
 							))}
 						</div>
 
-						<button className="btn mt-10 max-w-[240px]">Записаться</button>
+						<Link href="#coachs" className="btn mt-10 max-w-[240px]">
+							Записаться
+						</Link>
 					</div>
 
 					{/* Правая колонка: только карточка */}
@@ -58,14 +62,14 @@ export default function HomeSection({ className }: Props) {
 							title={"500 000 м²"}
 							text={"Площадь зала"}
 							width={220}
-							heidht={32}
+							height={120}
 							className="max-w-[300px]"
 						/>
 						<Card
 							title={"100"}
 							text="Тренажеров VIP уровня"
 							width={220}
-							heidht={32}
+							height={120}
 							className="max-w-[300px]"
 						/>
 						<Card
@@ -73,7 +77,7 @@ export default function HomeSection({ className }: Props) {
 							text={`и 
                             СПА центр`}
 							width={220}
-							heidht={32}
+							height={120}
 							className="max-w-[300px]"
 						/>
 					</div>
