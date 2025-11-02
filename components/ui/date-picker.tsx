@@ -6,7 +6,7 @@ import locale from "antd/locale/ru_RU";
 import { ConfigProvider } from "antd";
 
 interface Props {
-	onChange: (date: any) => void;
+	onChange: (date: string | null) => void;
 }
 
 export default function DateInputPicker({ onChange }: Props) {

@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import DateInputPicker from "./ui/date-picker";
-import { ClosedCaption, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
 
 export default function CoachModal({ selectedCoach, setSelectedCoach }: Props) {
 	const { data: session } = useSession();
-	const [date, setDate] = useState("");
+	const [date, setDate] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -35,6 +35,11 @@ export default function CoachModal({ selectedCoach, setSelectedCoach }: Props) {
 	async function handleBooking() {
 		if (!session) {
 			toast.error("Пожалуйста, авторизуйтесь. ❌");
+			return;
+		}
+
+		if (!date) {
+			toast.error("Выберите дату! ❌");
 			return;
 		}
 

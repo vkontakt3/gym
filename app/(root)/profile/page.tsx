@@ -1,12 +1,8 @@
 import ProfileForm from "@/components/profile-form";
 import { getUserSession } from "@/lib/get-user-session";
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-interface Props {
-	className?: string;
-}
 
-export default async function Profile({ className }: Props) {
+export default async function Profile({}) {
 	const session = await getUserSession();
 
 	if (!session?.id) {

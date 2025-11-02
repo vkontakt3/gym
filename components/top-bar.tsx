@@ -9,6 +9,7 @@ import RegisterModal from "./form/register-modal";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 interface Props {
 	className?: string;
@@ -26,10 +27,12 @@ export default function TopBar({ className }: Props) {
 		<div className={cn("sticky top-0 bg-black py-5 shadow-lg z-50", className)}>
 			<Container className="flex items-center justify-between">
 				<Link href={"/"}>
-					<img
+					<Image
 						src="/logo.svg"
 						alt="logo"
 						style={{ width: "200px", height: "50px" }}
+						width={200}
+						height={50}
 					/>
 				</Link>
 

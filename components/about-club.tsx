@@ -2,7 +2,6 @@ import { cn } from "@/lib/cn";
 import Image from "next/image";
 import { Container } from "./container";
 import Card from "./card";
-import Link from "next/link";
 import Title from "./title";
 
 interface Props {

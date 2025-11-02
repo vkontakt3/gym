@@ -7,7 +7,6 @@ import Footer from "@/components/footer";
 import Galery from "@/components/galery";
 import HomeSection from "@/components/home-section";
 import Services from "@/components/services";
-import { useForm } from "react-hook-form";
 
 interface Props {
 	className?: string;
