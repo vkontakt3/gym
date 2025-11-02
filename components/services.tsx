@@ -31,9 +31,7 @@ export default function Services({ className }: Props) {
 		async function getServices() {
 			setLoading(true);
 			const res = await fetch("/api/services");
-			if (!res.ok) {
-				throw new Error("Failed to fetch data");
-			}
+			if (!res.ok) throw new Error("Failed to fetch data");
 			const data = await res.json();
 			setServices(data);
 			setLoading(false);
@@ -44,15 +42,16 @@ export default function Services({ className }: Props) {
 	return (
 		<section
 			id="services"
-			className={cn("relative overflow-hidden", className)}
+			className={cn("relative overflow-hidden py-10 md:py-20", className)}
 		>
 			<Container>
+				{" "}
 				<div className="relative flex gap-3 z-10">
-					<Title titleWhite="Направления" />
-					<Title title="занятий" />
+					{" "}
+					<Title titleWhite="Направления" /> <Title title="занятий" />{" "}
 				</div>
-
-				<div className="grid grid-cols-3 gap-4">
+				{/* Сетки карточек */}
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
 					{loading || services.length === 0
 						? Array.from({ length: 9 }).map((_, index) => (
 								<ServicesCardSkeleton key={index} />

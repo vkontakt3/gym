@@ -12,11 +12,11 @@ export default function Coachs({ className }: Props) {
 	return (
 		<section
 			id="coachs"
-			className={cn("relative overflow-hidden mb-30", className)}
+			className={cn("relative overflow-hidden mb-30 z-10", className)}
 		>
 			<Container>
 				<Image
-					className="absolute w-full h-full inset-0 object-cover z-0 opacity-15"
+					className="absolute w-full h-full inset-0 object-cover z-0 opacity-15 "
 					src={"/bg.jpg"}
 					alt="bg"
 					width={1920}
@@ -28,7 +28,7 @@ export default function Coachs({ className }: Props) {
 					titleWhite="направления"
 				/>
 
-				<SliderCoach className="mb-20" />
+				<SliderCoach className="mb-20 z-30" />
 			</Container>
 		</section>
 	);

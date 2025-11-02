@@ -9,9 +9,10 @@ import {
 import { Coach } from "./slider/slider-coach";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { Input } from "./ui/input";
 import toast from "react-hot-toast";
 import DateInputPicker from "./ui/date-picker";
+import { ClosedCaption, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 interface Props {
 	selectedCoach: Coach | null;
@@ -21,9 +22,12 @@ interface Props {
 export default function CoachModal({ selectedCoach, setSelectedCoach }: Props) {
 	const { data: session } = useSession();
 	const [date, setDate] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
 	useEffect(() => {
 		setDate("");
+		setIsLoading(false);
 	}, [selectedCoach]);
 
 	if (!selectedCoach) return null;
@@ -42,35 +46,51 @@ export default function CoachModal({ selectedCoach, setSelectedCoach }: Props) {
 			return;
 		}
 
-		const res = await fetch("/api/bookings", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ coachId: selectedCoach?.id, date }),
-		});
+		try {
+			setIsLoading(true);
 
-		if (res.ok) {
-			toast.success("Вы успешно записались! ✅");
-			setSelectedCoach(null);
-		} else {
-			toast.error("Ошибка при записи. ❌");
+			const res = await fetch("/api/bookings", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ coachId: selectedCoach?.id, date }),
+			});
+
+			if (res.status === 409) {
+				toast.error("Это время уже занято. ⛔");
+				return;
+			}
+
+			if (res.ok) {
+				toast.success("Вы успешно записались! ✅");
+				setSelectedCoach(null);
+			} else {
+				toast.error("Ошибка при записи. ❌");
+			}
+		} catch {
+			toast.error("Произошла ошибка при соединении. ❌");
+		} finally {
+			setIsLoading(false);
 		}
 	}
 
 	return (
 		<Dialog open={!!selectedCoach} onOpenChange={() => setSelectedCoach(null)}>
-			<DialogContent className="max-w-4xl h-[600px] p-0 rounded-xl overflow-hidden">
+			<DialogContent className="max-w-4xl h-[790px] p-0 rounded-xl overflow-hidden">
 				<div className="flex flex-col md:flex-row">
 					{/* Левая часть — Фото */}
 					<div className="md:w-1/2 w-full h-80 md:h-auto relative">
-						<img
+						<Image
 							src={selectedCoach.src}
 							alt={selectedCoach.fullName}
-							className="object-cover w-full h-full"
+							className="object-cover object-top w-full h-full"
+							onClick={() => setIsOpen(true)}
+							width={1920}
+							height={1080}
 						/>
 					</div>
 
 					{/* Правая часть — Информация */}
-					<div className="md:w-1/2 w-full p-6  ">
+					<div className="md:w-1/2 w-full p-6 overflow-y-auto max-h-[50vh] md:max-h-full">
 						<DialogHeader>
 							<DialogTitle className="font-montserrat text-4xl mb-4  font-extrabold">
 								{selectedCoach.fullName}
@@ -124,16 +144,32 @@ export default function CoachModal({ selectedCoach, setSelectedCoach }: Props) {
 							<div className="flex items-center gap-4 mt-6">
 								<button
 									onClick={handleBooking}
-									className="px-6 py-2.5 bg-gradient-to-r from-[rgba(42,181,174,0.8)] to-[rgba(42,181,174,0.6)] text-white font-semibold rounded-lg shadow-md hover:from-[rgba(42,181,174,1)] hover:to-[rgba(42,181,174,0.8)] hover:shadow-[0_0_10px_rgba(42,181,174,0.6)] transition-all duration-200"
+									disabled={isLoading}
+									className={`px-6 py-2.5 flex items-center justify-center gap-2 bg-gradient-to-r from-[rgba(42,181,174,0.8)] to-[rgba(42,181,174,0.6)] text-white font-semibold rounded-lg shadow-md transition-all duration-200
+${
+	isLoading
+		? "opacity-70 cursor-not-allowed"
+		: "hover:from-[rgba(42,181,174,1)] hover:to-[rgba(42,181,174,0.8)] hover:shadow-[0_0_10px_rgba(42,181,174,0.6)]"
+}
+	`}
 								>
-									Записаться на{" "}
-									{new Date(date).toLocaleString("ru-RU", {
-										day: "2-digit",
-										month: "long",
-										year: "numeric",
-										hour: "2-digit",
-										minute: "2-digit",
-									})}
+									{isLoading ? (
+										<>
+											<Loader2 className="animate-spin h-5 w-5" />
+											Запись...
+										</>
+									) : (
+										<>
+											Записаться на{" "}
+											{new Date(date).toLocaleString("ru-RU", {
+												day: "2-digit",
+												month: "long",
+												year: "numeric",
+												hour: "2-digit",
+												minute: "2-digit",
+											})}
+										</>
+									)}
 								</button>
 
 								<button
@@ -145,6 +181,28 @@ export default function CoachModal({ selectedCoach, setSelectedCoach }: Props) {
 							</div>
 						)}
 					</div>
+
+					{isOpen && (
+						<div
+							className="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fade-in"
+							onClick={() => setIsOpen(false)}
+						>
+							<Image
+								src={selectedCoach.src}
+								alt={selectedCoach.fullName}
+								className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+								width={600}
+								height={1080}
+							/>
+
+							<button
+								onClick={() => setIsOpen(false)}
+								className="absolute top-6 right-6 text-white text-4xl font-light hover:opacity-80"
+							>
+								✕
+							</button>
+						</div>
+					)}
 				</div>
 			</DialogContent>
 		</Dialog>

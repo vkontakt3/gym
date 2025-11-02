@@ -16,14 +16,23 @@ interface Links {
 export default function Navigation({ className }: Props) {
 	const [links, setLinks] = useState<Links[]>([]);
 	const [activeHref, setActiveHref] = useState<string>("");
+	const [loading, setLoading] = useState<boolean>(true);
 
 	// Получаем данные навигации
 	useEffect(() => {
 		async function getNavigation() {
-			const res = await fetch("/api/navigation");
-			if (!res.ok) throw new Error("Failed to fetch data");
-			const data = await res.json();
-			setLinks(data);
+			try {
+				setLoading(true);
+				const res = await fetch("/api/navigation");
+				if (!res.ok) throw new Error("Failed to fetch data");
+				const data = await res.json();
+				setLinks(data);
+			} catch (error) {
+				console.error(error);
+				setLinks([]); // пустой массив при ошибке
+			} finally {
+				setLoading(false);
+			}
 		}
 		getNavigation();
 	}, []);
@@ -51,10 +60,28 @@ export default function Navigation({ className }: Props) {
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, [links]);
 
+	if (loading) {
+		return (
+			<div
+				className={cn(
+					"flex items-center justify-around mt-3 w-full lg:ml-8",
+					className
+				)}
+			>
+				{[...Array(4)].map((_, i) => (
+					<div
+						key={i}
+						className="h-5 w-30 bg-gray-400 rounded animate-pulse"
+					></div>
+				))}
+			</div>
+		);
+	}
+
 	return (
 		<div
 			className={cn(
-				"flex items-center justify-around mt-3 w-full ml-8",
+				"flex items-center justify-around mt-3 w-full lg:ml-8",
 				className
 			)}
 		>

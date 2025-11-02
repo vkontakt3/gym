@@ -12,15 +12,31 @@ export async function POST(req: Request) {
 
 		const { coachId, date } = await req.json();
 
+		const selectedDate = new Date(date);
+
 		if (!coachId || !date) {
 			return NextResponse.json({ error: "Missing data" }, { status: 400 });
+		}
+
+		const existingBooking = await prisma.booking.findFirst({
+			where: {
+				coachId: Number(coachId),
+				date: selectedDate,
+			},
+		});
+
+		if (existingBooking) {
+			return NextResponse.json(
+				{ error: "Booking already exists" },
+				{ status: 409 }
+			);
 		}
 
 		const booking = await prisma.booking.create({
 			data: {
 				userId: Number(session.user.id),
 				coachId: Number(coachId),
-				date: new Date(date),
+				date: selectedDate,
 			},
 		});
 

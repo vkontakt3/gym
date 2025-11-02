@@ -13,7 +13,7 @@ export default function AboutClub({ className }: Props) {
 	return (
 		<section id="about" className={cn("relative overflow-hidden", className)}>
 			<Image
-				className="absolute w-full h-full inset-0 object-cover z-0 opacity-15"
+				className="absolute w-full h-[900px] inset-0 object-cover z-0 opacity-15"
 				src={"/bg.jpg"}
 				alt="bg"
 				width={1920}
@@ -24,8 +24,7 @@ export default function AboutClub({ className }: Props) {
 					<Title title={"Moreon Fitness"} titleWhite="Яснево" />
 
 					<Card
-						width={1370}
-						className="text-start font-montserrat text-sm opacity-90 mb-14"
+						className="text-start font-montserrat text-sm opacity-90 mb-14  w-full max-w-[1370px] mx-auto"
 						text={`Добро пожаловать в Moreon Fitness – премиум фитнес-клуб, где спорт становится образом жизни! 
 
 У нас вы найдёте:
