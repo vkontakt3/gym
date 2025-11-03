@@ -73,7 +73,7 @@ export default function RegisterAccount({ onSwitch, className }: Props) {
 						type="text"
 						placeholder="Имя"
 						{...register("name")}
-						className="w-full p-3 rounded-xl border text-black bg-white font-montserrat border-gray-300 focus:ring-2 focus:border-[#47d6cf] transition-all"
+						className="w-full p-3 rounded-xl border text-black font-montserrat border-gray-300 focus:ring-2 focus:border-[#47d6cf] transition-all"
 					/>
 					{errors.name && (
 						<p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -85,7 +85,7 @@ export default function RegisterAccount({ onSwitch, className }: Props) {
 						type="email"
 						placeholder="Email"
 						{...register("email")}
-						className="w-full p-3 rounded-xl border text-black bg-white font-montserrat border-gray-300 focus:ring-2 focus:border-[#47d6cf] transition-all"
+						className="w-full p-3 rounded-xl border text-black font-montserrat border-gray-300 focus:ring-2 focus:border-[#47d6cf] transition-all"
 					/>
 					{errors.email && (
 						<p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -98,7 +98,7 @@ export default function RegisterAccount({ onSwitch, className }: Props) {
 						type="password"
 						placeholder="Пароль"
 						{...register("password")}
-						className="w-full p-3 rounded-xl border text-black bg-white font-montserrat border-gray-300 focus:ring-2 focus:border-[#47d6cf] transition-all"
+						className="w-full p-3 rounded-xl border text-black font-montserrat border-gray-300 focus:ring-2 focus:border-[#47d6cf] transition-all"
 					/>
 					{errors.password && (
 						<p className="text-red-500 text-sm mt-1">
@@ -112,7 +112,7 @@ export default function RegisterAccount({ onSwitch, className }: Props) {
 						type="password"
 						placeholder="Подтвердите пароль"
 						{...register("confirmPassword")}
-						className="w-full p-3 rounded-xl border text-black bg-white font-montserrat border-gray-300 focus:ring-2 focus:border-[#47d6cf] transition-all"
+						className="w-full p-3 rounded-xl border text-black font-montserrat border-gray-300 focus:ring-2 focus:border-[#47d6cf] transition-all"
 					/>
 					{errors.confirmPassword && (
 						<p className="text-red-500 text-sm mt-1">
