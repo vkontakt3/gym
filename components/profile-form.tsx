@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/cn";
 import EditProfileForm from "@/components/edit-profile-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { User, Booking, Coach } from "@prisma/client";
 import toast from "react-hot-toast";
 import { deleteBooking } from "@/action";
@@ -35,6 +35,10 @@ export default function ProfileForm({ user, className }: Props) {
 	const [editMode, setEditMode] = useState(false);
 	const [bookingToDelete, setBookingToDelete] = useState<number | null>(null);
 	const router = useRouter();
+
+	useEffect(() => {
+		bookingToDelete;
+	}, [bookingToDelete]);
 
 	async function handleDeleteBooking(bookingId: number) {
 		const res = await deleteBooking(bookingId);

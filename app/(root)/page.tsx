@@ -8,13 +8,9 @@ import Galery from "@/components/galery";
 import HomeSection from "@/components/home-section";
 import Services from "@/components/services";
 
-interface Props {
-	className?: string;
-}
-
-export default function Home({ className }: Props) {
+export default function Home() {
 	return (
-		<div className={className}>
+		<div>
 			<HomeSection />
 			<AboutClub />
 			<Galery />

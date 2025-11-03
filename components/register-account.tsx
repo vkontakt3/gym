@@ -2,12 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "lucide-react";
 import { signIn } from "next-auth/react";
-import {
-	LoginFormData,
-	loginSchema,
-	RegisterData,
-	registerSchema,
-} from "./form/zod";
+import { RegisterData, registerSchema } from "./form/zod";
 import { Input } from "./ui/input";
 import toast from "react-hot-toast";
 
