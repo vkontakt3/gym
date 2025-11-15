@@ -8,6 +8,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import React from "react";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 const CardGalerySkeleton = dynamic(
 	() => import("../loading/skeleton-card-galery"),
@@ -22,21 +23,19 @@ interface CardProps {
 	src: string;
 }
 
-export default function SliderCard({ className }: Props) {
-	const [loading, setLoading] = React.useState(true);
-	const [card, setCard] = React.useState<CardProps[]>([]);
+async function getGalery() {
+	const res = await fetch("/api/card");
+	if (!res.ok) throw new Error("Failed to fetch data");
+	return await res.json();
+}
 
-	React.useEffect(() => {
-		async function getGalery() {
-			setLoading(true);
-			const res = await fetch("/api/card");
-			if (!res.ok) throw new Error("Failed to fetch data");
-			const data = await res.json();
-			setCard(data);
-			setLoading(false);
-		}
-		getGalery();
-	}, []);
+export default function SliderCard({ className }: Props) {
+	const { data, isLoading } = useQuery<CardProps[]>({
+		queryKey: ["galery"],
+		queryFn: getGalery,
+	});
+
+	console.log(data);
 
 	return (
 		<div className={`relative ${className}`}>
@@ -68,13 +67,13 @@ export default function SliderCard({ className }: Props) {
 				}}
 				className="w-full h-auto sm:h-[250px] md:h-[300px]"
 			>
-				{loading || card.length === 0
+				{isLoading || !data?.length
 					? [...Array(3)].map((_, index) => (
 							<SwiperSlide key={index} className="overflow-visible">
 								<CardGalerySkeleton />
 							</SwiperSlide>
 					  ))
-					: card.map((item, i) => (
+					: data.map((item, i) => (
 							<SwiperSlide key={i} className="overflow-visible">
 								<div className="p-1 relative w-full h-full">
 									<Image
