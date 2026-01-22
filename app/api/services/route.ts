@@ -9,7 +9,7 @@ export async function GET() {
 		console.error("Ошибка получения ссылок:", error);
 		return NextResponse.json(
 			{ error: "Ошибка получения данных" },
-			{ status: 500 }
+			{ status: 500 },
 		);
 	}
 }
