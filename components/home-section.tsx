@@ -21,7 +21,7 @@ export default function HomeSection({ className }: Props) {
 			className={cn(
 				"relative w-full min-h-[745px] overflow-hidden text-white",
 				"md:h-[745px] h-auto pb-10",
-				className
+				className,
 			)}
 		>
 			{/* Фон */}

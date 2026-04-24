@@ -1,18 +1,19 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 import Image from "next/image";
 
 export default function SliderHome() {
 	return (
 		<Swiper
-			modules={[Autoplay]}
+			modules={[Autoplay, EffectFade]}
 			slidesPerView={1}
 			loop
+			effect="fade"
+			fadeEffect={{ crossFade: true }}
 			autoplay={{ delay: 4000 }}
 			className="relative w-full h-[745px]"
 		>
