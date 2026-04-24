@@ -1,18 +1,23 @@
-// lib/prisma.ts
 import { PrismaClient } from "@prisma/client";
+import { PrismaNeon } from "@prisma/adapter-neon";
+import { Pool, neonConfig } from "@neondatabase/serverless";
+import ws from "ws";
+
+neonConfig.webSocketConstructor = ws;
+
+function createPrismaClient() {
+	const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+	const adapter = new PrismaNeon(pool as any);
+	return new PrismaClient({ adapter });
+}
 
 let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === "production") {
-	prisma = new PrismaClient({
-		log: ["query"],
-	});
+	prisma = createPrismaClient();
 } else {
-	// В dev используем globalThis, чтобы PrismaClient не создавался при каждом hot reload
 	if (!(global as any).prisma) {
-		(global as any).prisma = new PrismaClient({
-			log: ["query"],
-		});
+		(global as any).prisma = createPrismaClient();
 	}
 	prisma = (global as any).prisma;
 }
