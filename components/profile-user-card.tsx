@@ -11,7 +11,7 @@ interface Props {
 	className?: string;
 }
 
-export default function ProfileUserCard({ user, className }: Props) {
+export default function ProfileUserCard({ user }: Props) {
 	const [editMode, setEditMode] = useState(false);
 	return (
 		<div

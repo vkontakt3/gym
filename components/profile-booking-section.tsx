@@ -29,7 +29,7 @@ interface Props {
 	className?: string;
 }
 
-export default function ProfileBookingSection({ user, className }: Props) {
+export default function ProfileBookingSection({ user }: Props) {
 	const [bookingToDelete, setBookingToDelete] = useState<number | null>(null);
 	const [selectedCoach, setSelectedCoach] = useState<SliderCoach | null>(null);
 	const router = useRouter();

@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import DateInputPicker from "./ui/date-picker";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
 	selectedCoach: Coach | null;
@@ -192,12 +193,12 @@ ${
 							))}
 
 						{readOnly && (
-							<a
+							<Link
 								href="/"
 								className="inline-block mt-10 px-6 py-2.5 text-center font-semibold rounded-lg transition-all duration-200 bg-gradient-to-r from-[rgba(42,181,174,0.8)] to-[rgba(42,181,174,0.6)] hover:from-[rgba(42,181,174,1)] hover:to-[rgba(42,181,174,0.8)] hover:shadow-[0_0_10px_rgba(42,181,174,0.6)] text-white"
 							>
 								Записаться ещё раз
-							</a>
+							</Link>
 						)}
 					</div>
 
