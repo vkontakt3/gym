@@ -74,8 +74,17 @@ export default function EditProfileForm({
 			)}
 
 			<div className="flex gap-3 mt-4">
-				<Button type="submit">Сохранить</Button>
-				<Button type="button" variant="outline" onClick={onCancel}>
+				<Button
+					className="px-5 py-2.5 rounded-xl text-sm font-semibold border border-[#2ab5ae]/60 text-[#2ab5ae] hover:bg-[#2ab5ae]/10 transition-all duration-200"
+					type="submit"
+				>
+					Сохранить
+				</Button>
+				<Button
+					className="px-5 py-2.5 rounded-xl text-sm font-semibold border border-red-500/50 text-red-400 hover:bg-red-500/10 transition-all duration-200"
+					type="button"
+					onClick={onCancel}
+				>
 					Отмена
 				</Button>
 			</div>
