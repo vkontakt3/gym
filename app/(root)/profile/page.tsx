@@ -15,7 +15,11 @@ export default async function Profile({}) {
 		include: {
 			bookings: {
 				include: {
-					coach: true,
+					coach: {
+						include: {
+							achievements: true,
+						},
+					},
 				},
 				orderBy: { date: "desc" },
 			},

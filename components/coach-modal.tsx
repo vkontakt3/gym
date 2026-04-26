@@ -16,10 +16,15 @@ import Image from "next/image";
 
 interface Props {
 	selectedCoach: Coach | null;
+	readOnly?: boolean;
 	setSelectedCoach: React.Dispatch<React.SetStateAction<Coach | null>>;
 }
 
-export default function CoachModal({ selectedCoach, setSelectedCoach }: Props) {
+export default function CoachModal({
+	readOnly,
+	selectedCoach,
+	setSelectedCoach,
+}: Props) {
 	const { data: session } = useSession();
 	const [date, setDate] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
@@ -115,7 +120,7 @@ export default function CoachModal({ selectedCoach, setSelectedCoach }: Props) {
 								Достижения:
 							</strong>
 							<ul className="font-montserrat opacity-90 list-none mb-5">
-								{selectedCoach.achievements.map((ach, idx) => (
+								{(selectedCoach.achievements ?? []).map((ach, idx) => (
 									<li
 										key={idx}
 										className="relative pl-6 mb-2 before:absolute before:left-2 before:top-1/2 before:h-[1px] before:w-2 before:bg-white before:-translate-y-1/2"
@@ -137,53 +142,62 @@ export default function CoachModal({ selectedCoach, setSelectedCoach }: Props) {
 							<p>{selectedCoach.about}</p>
 						</div>
 
-						{/* 🔹 Кнопка появляется только если дата выбрана */}
-						{!date ? (
-							<div className="mt-4 mb-3">
-								<label className="font-montserrat mb-1 block">
-									Выберите дату тренировки:
-								</label>
-								<DateInputPicker onChange={setDate} />
-							</div>
-						) : (
-							<div className="flex items-center gap-4 mt-6">
-								<button
-									onClick={handleBooking}
-									disabled={isLoading}
-									className={`px-6 py-2.5 flex items-center justify-center gap-2 bg-gradient-to-r from-[rgba(42,181,174,0.8)] to-[rgba(42,181,174,0.6)] text-white font-semibold rounded-lg shadow-md transition-all duration-200
+						{!readOnly &&
+							(!date ? (
+								<div className="mt-4 mb-3">
+									<label className="font-montserrat mb-1 block">
+										Выберите дату тренировки:
+									</label>
+									<DateInputPicker onChange={setDate} />
+								</div>
+							) : (
+								<div className="flex items-center gap-4 mt-6">
+									<button
+										onClick={handleBooking}
+										disabled={isLoading}
+										className={`px-6 py-2.5 flex items-center justify-center gap-2 bg-gradient-to-r from-[rgba(42,181,174,0.8)] to-[rgba(42,181,174,0.6)] text-white font-semibold rounded-lg shadow-md transition-all duration-200
 ${
 	isLoading
 		? "opacity-70 cursor-not-allowed"
 		: "hover:from-[rgba(42,181,174,1)] hover:to-[rgba(42,181,174,0.8)] hover:shadow-[0_0_10px_rgba(42,181,174,0.6)]"
 }
-	`}
-								>
-									{isLoading ? (
-										<>
-											<Loader2 className="animate-spin h-5 w-5" />
-											Запись...
-										</>
-									) : (
-										<>
-											Записаться на{" "}
-											{new Date(date).toLocaleString("ru-RU", {
-												day: "2-digit",
-												month: "long",
-												year: "numeric",
-												hour: "2-digit",
-												minute: "2-digit",
-											})}
-										</>
-									)}
-								</button>
+`}
+									>
+										{isLoading ? (
+											<>
+												<Loader2 className="animate-spin h-5 w-5" />
+												Запись...
+											</>
+										) : (
+											<>
+												Записаться на{" "}
+												{new Date(date).toLocaleString("ru-RU", {
+													day: "2-digit",
+													month: "long",
+													year: "numeric",
+													hour: "2-digit",
+													minute: "2-digit",
+												})}
+											</>
+										)}
+									</button>
 
-								<button
-									onClick={() => setDate("")}
-									className="px-6 py-2.5 border border-[rgba(42,181,174,0.5)] text-[rgba(42,181,174,0.9)] rounded-lg font-medium hover:bg-[rgba(42,181,174,0.1)] hover:border-[rgba(42,181,174,0.8)] transition-all duration-400"
-								>
-									Выбрать другую дату
-								</button>
-							</div>
+									<button
+										onClick={() => setDate("")}
+										className="px-6 py-2.5 border border-[rgba(42,181,174,0.5)] text-[rgba(42,181,174,0.9)] rounded-lg font-medium hover:bg-[rgba(42,181,174,0.1)] hover:border-[rgba(42,181,174,0.8)] transition-all duration-400"
+									>
+										Выбрать другую дату
+									</button>
+								</div>
+							))}
+
+						{readOnly && (
+							<a
+								href="/"
+								className="inline-block mt-10 px-6 py-2.5 text-center font-semibold rounded-lg transition-all duration-200 bg-gradient-to-r from-[rgba(42,181,174,0.8)] to-[rgba(42,181,174,0.6)] hover:from-[rgba(42,181,174,1)] hover:to-[rgba(42,181,174,0.8)] hover:shadow-[0_0_10px_rgba(42,181,174,0.6)] text-white"
+							>
+								Записаться ещё раз
+							</a>
 						)}
 					</div>
 
